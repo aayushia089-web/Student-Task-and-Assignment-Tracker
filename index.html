@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Academic Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 0; }
+        .header { background: #6c63ff; color: white; padding: 15px; display: flex; justify-content: space-between; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        .submitted { color: green; font-weight: bold; }
+        .pending { color: orange; font-weight: bold; }
+        .late { color: red; font-weight: bold; }
+        button { padding: 5px 10px; cursor: pointer; }
+        .admin-panel { background: #f4f4f4; padding: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>Academic Portal</div>
+    <div>
+        <span id="roleBadge"></span>
+        <span id="userInfo"></span>
+        <button onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div style="padding:20px;">
+
+    <h3>System Stats</h3>
+    <p>Total Assignments: <span id="totalCount">0</span></p>
+    <p>Submitted: <span id="submittedCount">0</span></p>
+    <p>Pending: <span id="pendingCount">0</span></p>
+
+    <!-- Faculty Create Section -->
+    <div id="facultySection">
+        <h3>Create Assignment</h3>
+        <input type="text" id="taskTitle" placeholder="Title"><br><br>
+        <textarea id="taskDesc" placeholder="Description"></textarea><br><br>
+        <input type="number" id="taskMarks" placeholder="Marks"><br><br>
+        <input type="date" id="taskDeadline"><br><br>
+        <input type="file" id="taskFile" accept=".pdf"><br><br>
+        <button onclick="createAssignment()">Create Assignment</button>
+    </div>
+
+    <hr>
+
+    <h3>Assignments</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Marks</th>
+                <th>Deadline</th>
+                <th>File</th>
+                <th>Status / Count</th>
+                <th>Action</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <div id="submissionPanel"></div>
+
+    <!-- ADMIN PANEL -->
+    <div id="adminSection" class="admin-panel">
+        <h3>Admin Panel</h3>
+
+        <h4>Add New User</h4>
+        <input type="text" id="newUserId" placeholder="User ID">
+        <select id="newUserRole">
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button onclick="addUser()">Add User</button>
+
+        <h4>All Users</h4>
+        <div id="userList"></div>
+
+        <h4>System Control</h4>
+        <button onclick="resetSystem()">Reset Entire System</button>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+var role = localStorage.getItem("role");
+var user = localStorage.getItem("userId");
+
+if (!role) {
+    window.location.href = "login.html";
+} else {
+    document.getElementById("roleBadge").innerText = role.toUpperCase();
+    document.getElementById("userInfo").innerText = user;
+}
+</script>
+
+</body>
+</html>
